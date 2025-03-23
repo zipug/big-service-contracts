@@ -15,8 +15,7 @@ message LoginRequest {
 }
 
 message AuthResponse {
-  // Только в случае status == "success"
-  optional string token = 1;
+  string token = 1;
   string status = 2;
 }
 
