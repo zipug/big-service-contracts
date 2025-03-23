@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "./;protocol";
+
+service AuthService {
+  rpc Login(LoginRequest) returns (AuthResponse);
+  rpc Register(RegisterRequest) returns (AuthResponse);
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  // Только в случае status == "success"
+  optional string token = 1;
+  string status = 2;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string repeat_password = 3;
+  string name = 4;
+  string lastname = 5;
+}
