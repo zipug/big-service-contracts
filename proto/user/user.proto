@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-package auth;
+package user;
+
+import "google/protobuf/empty.proto";
 
 option go_package = "./;protocol";
 
@@ -25,4 +27,143 @@ message RegisterRequest {
   string repeat_password = 3;
   string name = 4;
   string lastname = 5;
+}
+
+service UserService {
+  rpc GeById(ByIdRequest) returns (UserResponse);
+  rpc GetMe(google.protobuf.Empty) returns (UserResponse);
+  rpc GetAll(google.protobuf.Empty) returns (AllUsersResponse);
+  rpc Update(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc GrantRole(GrantRoleRequest) returns (GrantRoleResponse);
+  rpc Delete(ByIdRequest) returns (DeleteUserResponse);
+}
+
+service RoleService {
+  rpc GetById(ByIdRequest) returns (RoleResponse);
+  rpc GetAll(google.protobuf.Empty) returns (AllRolesResponse);
+  rpc Create(CreateRoleRequest) returns (CreateRoleResponse);
+  rpc Update(UpdateRoleRequest) returns (UpdateRoleResponse);
+  rpc Delete(ByIdRequest) returns (DeleteRoleResponse);
+  rpc UpdatePermissions(UpdatePermissionsRequest) returns (UpdatePermissionsResponse);
+}
+
+message ByIdRequest { int64 id = 1; }
+
+message UpdateUserRequest {
+    int64 id = 1;
+    string email = 2;
+    string name = 3;
+    string lastname = 4;
+}
+
+message UpdatePermissionsRequest {
+  int64 id = 1;
+  Permission perms = 2;
+}
+
+message DeleteRoleResponse {
+  string status = 1;
+}
+
+message UpdatePermissionsResponse {
+  string status = 1;
+}
+
+message CreateRoleRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message UpdateRoleRequest {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message UpdateRoleResponse {
+  UpdateRoleData data = 1;
+  string status = 2;
+}
+
+message UpdateRoleData {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  bool is_custom = 4;
+}
+
+message CreateRoleResponse {
+  int64 data = 1;
+  string status = 2;
+}
+
+message GrantRoleRequest {
+  int64 user_id = 1;
+  int64 role_id = 2;
+}
+
+message DeleteUserResponse {
+  string status = 1;
+}
+
+message GrantRoleResponse {
+  string status = 1;
+}
+
+message Permission {
+    string name = 1;
+    string description = 2;
+    bool do_create = 3;
+    bool do_update = 4;
+    bool do_read = 5;
+    bool do_delete = 6;
+}
+
+message Role {
+    int64 id = 1;
+    string name = 2;
+    string description = 3;
+    repeated Permission permissions = 4;
+    bool is_custom = 5;
+}
+
+message User {
+    int64 id = 1;
+    string state = 2;
+    string email = 3;
+    string name = 4;
+    string lastname = 5;
+    Role role = 6;
+}
+
+message UserResponse {
+    User data = 1;
+    string status = 2;
+}
+
+message RoleResponse {
+  Role data = 1;
+  string status = 2;
+}
+
+message AllRolesResponse {
+  repeated Role data = 1;
+  string status = 2;
+}
+
+message AllUsersResponse {
+    repeated User data = 1;
+    string status = 2;
+}
+
+message UpdateUserData {
+  string state = 1;
+  string email = 2;
+  string name = 3;
+  string lastname = 4;
+}
+
+message UpdateUserResponse {
+  UpdateUserData data = 1;
+  string status = 2;
 }
