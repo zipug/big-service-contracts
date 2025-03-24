@@ -58,7 +58,7 @@ message UpdateUserRequest {
 
 message UpdatePermissionsRequest {
   int64 id = 1;
-  Permission perms = 2;
+  repeated Permission perms = 2;
 }
 
 message DeleteRoleResponse {
