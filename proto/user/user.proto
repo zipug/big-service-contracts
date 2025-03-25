@@ -30,7 +30,7 @@ message RegisterRequest {
 }
 
 service UserService {
-  rpc GeById(ByIdRequest) returns (UserResponse);
+  rpc GetById(ByIdRequest) returns (UserResponse);
   rpc GetMe(google.protobuf.Empty) returns (UserResponse);
   rpc GetAll(google.protobuf.Empty) returns (AllUsersResponse);
   rpc Update(UpdateUserRequest) returns (UpdateUserResponse);
@@ -47,13 +47,15 @@ service RoleService {
   rpc UpdatePermissions(UpdatePermissionsRequest) returns (UpdatePermissionsResponse);
 }
 
-message ByIdRequest { int64 id = 1; }
+message ByIdRequest {
+  int64 id = 1;
+}
 
 message UpdateUserRequest {
-    int64 id = 1;
-    string email = 2;
-    string name = 3;
-    string lastname = 4;
+  int64 id = 1;
+  string email = 2;
+  string name = 3;
+  string lastname = 4;
 }
 
 message UpdatePermissionsRequest {
@@ -111,34 +113,34 @@ message GrantRoleResponse {
 }
 
 message Permission {
-    string name = 1;
-    string description = 2;
-    bool do_create = 3;
-    bool do_update = 4;
-    bool do_read = 5;
-    bool do_delete = 6;
+  string name = 1;
+  string description = 2;
+  bool do_create = 3;
+  bool do_update = 4;
+  bool do_read = 5;
+  bool do_delete = 6;
 }
 
 message Role {
-    int64 id = 1;
-    string name = 2;
-    string description = 3;
-    repeated Permission permissions = 4;
-    bool is_custom = 5;
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  repeated Permission permissions = 4;
+  bool is_custom = 5;
 }
 
 message User {
-    int64 id = 1;
-    string state = 2;
-    string email = 3;
-    string name = 4;
-    string lastname = 5;
-    Role role = 6;
+  int64 id = 1;
+  string state = 2;
+  string email = 3;
+  string name = 4;
+  string lastname = 5;
+  Role role = 6;
 }
 
 message UserResponse {
-    User data = 1;
-    string status = 2;
+  User data = 1;
+  string status = 2;
 }
 
 message RoleResponse {
@@ -152,8 +154,8 @@ message AllRolesResponse {
 }
 
 message AllUsersResponse {
-    repeated User data = 1;
-    string status = 2;
+  repeated User data = 1;
+  string status = 2;
 }
 
 message UpdateUserData {
