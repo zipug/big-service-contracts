@@ -9,6 +9,16 @@ option go_package = "./;protocol";
 service AuthService {
   rpc Login(LoginRequest) returns (AuthResponse);
   rpc Register(RegisterRequest) returns (AuthResponse);
+  rpc ValidatePerms(ValidatePermsRequest) returns (ValidatePermsResponse);
+}
+
+message ValidatePermsRequest {
+  string path = 1;
+}
+
+message ValidatePermsResponse {
+  bool ok = 1;
+  string status = 2;
 }
 
 message LoginRequest {

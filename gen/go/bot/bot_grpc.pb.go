@@ -272,3 +272,511 @@ var BotService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "bot/bot.proto",
 }
+
+const (
+	TokenService_GetById_FullMethodName = "/bot.TokenService/GetById"
+	TokenService_GetAll_FullMethodName  = "/bot.TokenService/GetAll"
+	TokenService_Create_FullMethodName  = "/bot.TokenService/Create"
+	TokenService_Update_FullMethodName  = "/bot.TokenService/Update"
+	TokenService_Delete_FullMethodName  = "/bot.TokenService/Delete"
+)
+
+// TokenServiceClient is the client API for TokenService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TokenServiceClient interface {
+	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*TokenResponse, error)
+	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllTokensResponse, error)
+	Create(ctx context.Context, in *CreateTokenRequest, opts ...grpc.CallOption) (*CreateTokenResponse, error)
+	Update(ctx context.Context, in *UpdateTokenRequest, opts ...grpc.CallOption) (*UpdateTokenResponse, error)
+	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteTokenResponse, error)
+}
+
+type tokenServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTokenServiceClient(cc grpc.ClientConnInterface) TokenServiceClient {
+	return &tokenServiceClient{cc}
+}
+
+func (c *tokenServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TokenResponse)
+	err := c.cc.Invoke(ctx, TokenService_GetById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tokenServiceClient) GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllTokensResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AllTokensResponse)
+	err := c.cc.Invoke(ctx, TokenService_GetAll_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tokenServiceClient) Create(ctx context.Context, in *CreateTokenRequest, opts ...grpc.CallOption) (*CreateTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateTokenResponse)
+	err := c.cc.Invoke(ctx, TokenService_Create_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tokenServiceClient) Update(ctx context.Context, in *UpdateTokenRequest, opts ...grpc.CallOption) (*UpdateTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateTokenResponse)
+	err := c.cc.Invoke(ctx, TokenService_Update_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tokenServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteTokenResponse)
+	err := c.cc.Invoke(ctx, TokenService_Delete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TokenServiceServer is the server API for TokenService service.
+// All implementations must embed UnimplementedTokenServiceServer
+// for forward compatibility.
+type TokenServiceServer interface {
+	GetById(context.Context, *ByIdRequest) (*TokenResponse, error)
+	GetAll(context.Context, *emptypb.Empty) (*AllTokensResponse, error)
+	Create(context.Context, *CreateTokenRequest) (*CreateTokenResponse, error)
+	Update(context.Context, *UpdateTokenRequest) (*UpdateTokenResponse, error)
+	Delete(context.Context, *ByIdRequest) (*DeleteTokenResponse, error)
+	mustEmbedUnimplementedTokenServiceServer()
+}
+
+// UnimplementedTokenServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedTokenServiceServer struct{}
+
+func (UnimplementedTokenServiceServer) GetById(context.Context, *ByIdRequest) (*TokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
+}
+func (UnimplementedTokenServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllTokensResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
+}
+func (UnimplementedTokenServiceServer) Create(context.Context, *CreateTokenRequest) (*CreateTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (UnimplementedTokenServiceServer) Update(context.Context, *UpdateTokenRequest) (*UpdateTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (UnimplementedTokenServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedTokenServiceServer) mustEmbedUnimplementedTokenServiceServer() {}
+func (UnimplementedTokenServiceServer) testEmbeddedByValue()                      {}
+
+// UnsafeTokenServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TokenServiceServer will
+// result in compilation errors.
+type UnsafeTokenServiceServer interface {
+	mustEmbedUnimplementedTokenServiceServer()
+}
+
+func RegisterTokenServiceServer(s grpc.ServiceRegistrar, srv TokenServiceServer) {
+	// If the following call pancis, it indicates UnimplementedTokenServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&TokenService_ServiceDesc, srv)
+}
+
+func _TokenService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TokenServiceServer).GetById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TokenService_GetById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TokenServiceServer).GetById(ctx, req.(*ByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TokenService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TokenServiceServer).GetAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TokenService_GetAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TokenServiceServer).GetAll(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TokenService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TokenServiceServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TokenService_Create_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TokenServiceServer).Create(ctx, req.(*CreateTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TokenService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TokenServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TokenService_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TokenServiceServer).Update(ctx, req.(*UpdateTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TokenService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TokenServiceServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TokenService_Delete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TokenServiceServer).Delete(ctx, req.(*ByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TokenService_ServiceDesc is the grpc.ServiceDesc for TokenService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TokenService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "bot.TokenService",
+	HandlerType: (*TokenServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetById",
+			Handler:    _TokenService_GetById_Handler,
+		},
+		{
+			MethodName: "GetAll",
+			Handler:    _TokenService_GetAll_Handler,
+		},
+		{
+			MethodName: "Create",
+			Handler:    _TokenService_Create_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _TokenService_Update_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _TokenService_Delete_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "bot/bot.proto",
+}
+
+const (
+	KeyboardService_GetById_FullMethodName = "/bot.KeyboardService/GetById"
+	KeyboardService_GetAll_FullMethodName  = "/bot.KeyboardService/GetAll"
+	KeyboardService_Create_FullMethodName  = "/bot.KeyboardService/Create"
+	KeyboardService_Update_FullMethodName  = "/bot.KeyboardService/Update"
+	KeyboardService_Delete_FullMethodName  = "/bot.KeyboardService/Delete"
+)
+
+// KeyboardServiceClient is the client API for KeyboardService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type KeyboardServiceClient interface {
+	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*KeyboardResponse, error)
+	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllKeyboardsResponse, error)
+	Create(ctx context.Context, in *CreateKeyboardRequest, opts ...grpc.CallOption) (*CreateKeyboardResponse, error)
+	Update(ctx context.Context, in *UpdateKeyboardRequest, opts ...grpc.CallOption) (*UpdateKeyboardResponse, error)
+	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteKeyboardResponse, error)
+}
+
+type keyboardServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewKeyboardServiceClient(cc grpc.ClientConnInterface) KeyboardServiceClient {
+	return &keyboardServiceClient{cc}
+}
+
+func (c *keyboardServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*KeyboardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(KeyboardResponse)
+	err := c.cc.Invoke(ctx, KeyboardService_GetById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyboardServiceClient) GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllKeyboardsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AllKeyboardsResponse)
+	err := c.cc.Invoke(ctx, KeyboardService_GetAll_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyboardServiceClient) Create(ctx context.Context, in *CreateKeyboardRequest, opts ...grpc.CallOption) (*CreateKeyboardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateKeyboardResponse)
+	err := c.cc.Invoke(ctx, KeyboardService_Create_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyboardServiceClient) Update(ctx context.Context, in *UpdateKeyboardRequest, opts ...grpc.CallOption) (*UpdateKeyboardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateKeyboardResponse)
+	err := c.cc.Invoke(ctx, KeyboardService_Update_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *keyboardServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteKeyboardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteKeyboardResponse)
+	err := c.cc.Invoke(ctx, KeyboardService_Delete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// KeyboardServiceServer is the server API for KeyboardService service.
+// All implementations must embed UnimplementedKeyboardServiceServer
+// for forward compatibility.
+type KeyboardServiceServer interface {
+	GetById(context.Context, *ByIdRequest) (*KeyboardResponse, error)
+	GetAll(context.Context, *emptypb.Empty) (*AllKeyboardsResponse, error)
+	Create(context.Context, *CreateKeyboardRequest) (*CreateKeyboardResponse, error)
+	Update(context.Context, *UpdateKeyboardRequest) (*UpdateKeyboardResponse, error)
+	Delete(context.Context, *ByIdRequest) (*DeleteKeyboardResponse, error)
+	mustEmbedUnimplementedKeyboardServiceServer()
+}
+
+// UnimplementedKeyboardServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedKeyboardServiceServer struct{}
+
+func (UnimplementedKeyboardServiceServer) GetById(context.Context, *ByIdRequest) (*KeyboardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
+}
+func (UnimplementedKeyboardServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllKeyboardsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
+}
+func (UnimplementedKeyboardServiceServer) Create(context.Context, *CreateKeyboardRequest) (*CreateKeyboardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (UnimplementedKeyboardServiceServer) Update(context.Context, *UpdateKeyboardRequest) (*UpdateKeyboardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (UnimplementedKeyboardServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteKeyboardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedKeyboardServiceServer) mustEmbedUnimplementedKeyboardServiceServer() {}
+func (UnimplementedKeyboardServiceServer) testEmbeddedByValue()                         {}
+
+// UnsafeKeyboardServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to KeyboardServiceServer will
+// result in compilation errors.
+type UnsafeKeyboardServiceServer interface {
+	mustEmbedUnimplementedKeyboardServiceServer()
+}
+
+func RegisterKeyboardServiceServer(s grpc.ServiceRegistrar, srv KeyboardServiceServer) {
+	// If the following call pancis, it indicates UnimplementedKeyboardServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&KeyboardService_ServiceDesc, srv)
+}
+
+func _KeyboardService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyboardServiceServer).GetById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeyboardService_GetById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyboardServiceServer).GetById(ctx, req.(*ByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyboardService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyboardServiceServer).GetAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeyboardService_GetAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyboardServiceServer).GetAll(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyboardService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateKeyboardRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyboardServiceServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeyboardService_Create_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyboardServiceServer).Create(ctx, req.(*CreateKeyboardRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyboardService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateKeyboardRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyboardServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeyboardService_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyboardServiceServer).Update(ctx, req.(*UpdateKeyboardRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KeyboardService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KeyboardServiceServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KeyboardService_Delete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KeyboardServiceServer).Delete(ctx, req.(*ByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// KeyboardService_ServiceDesc is the grpc.ServiceDesc for KeyboardService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var KeyboardService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "bot.KeyboardService",
+	HandlerType: (*KeyboardServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetById",
+			Handler:    _KeyboardService_GetById_Handler,
+		},
+		{
+			MethodName: "GetAll",
+			Handler:    _KeyboardService_GetAll_Handler,
+		},
+		{
+			MethodName: "Create",
+			Handler:    _KeyboardService_Create_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _KeyboardService_Update_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _KeyboardService_Delete_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "bot/bot.proto",
+}

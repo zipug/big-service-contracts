@@ -20,8 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuthService_Login_FullMethodName    = "/user.AuthService/Login"
-	AuthService_Register_FullMethodName = "/user.AuthService/Register"
+	AuthService_Login_FullMethodName         = "/user.AuthService/Login"
+	AuthService_Register_FullMethodName      = "/user.AuthService/Register"
+	AuthService_ValidatePerms_FullMethodName = "/user.AuthService/ValidatePerms"
 )
 
 // AuthServiceClient is the client API for AuthService service.
@@ -30,6 +31,7 @@ const (
 type AuthServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*AuthResponse, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*AuthResponse, error)
+	ValidatePerms(ctx context.Context, in *ValidatePermsRequest, opts ...grpc.CallOption) (*ValidatePermsResponse, error)
 }
 
 type authServiceClient struct {
@@ -60,12 +62,23 @@ func (c *authServiceClient) Register(ctx context.Context, in *RegisterRequest, o
 	return out, nil
 }
 
+func (c *authServiceClient) ValidatePerms(ctx context.Context, in *ValidatePermsRequest, opts ...grpc.CallOption) (*ValidatePermsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidatePermsResponse)
+	err := c.cc.Invoke(ctx, AuthService_ValidatePerms_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
 type AuthServiceServer interface {
 	Login(context.Context, *LoginRequest) (*AuthResponse, error)
 	Register(context.Context, *RegisterRequest) (*AuthResponse, error)
+	ValidatePerms(context.Context, *ValidatePermsRequest) (*ValidatePermsResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -81,6 +94,9 @@ func (UnimplementedAuthServiceServer) Login(context.Context, *LoginRequest) (*Au
 }
 func (UnimplementedAuthServiceServer) Register(context.Context, *RegisterRequest) (*AuthResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedAuthServiceServer) ValidatePerms(context.Context, *ValidatePermsRequest) (*ValidatePermsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidatePerms not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 func (UnimplementedAuthServiceServer) testEmbeddedByValue()                     {}
@@ -139,6 +155,24 @@ func _AuthService_Register_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_ValidatePerms_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidatePermsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).ValidatePerms(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_ValidatePerms_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).ValidatePerms(ctx, req.(*ValidatePermsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,6 +187,10 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Register",
 			Handler:    _AuthService_Register_Handler,
+		},
+		{
+			MethodName: "ValidatePerms",
+			Handler:    _AuthService_ValidatePerms_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

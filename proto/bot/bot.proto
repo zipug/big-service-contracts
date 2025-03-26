@@ -20,6 +20,10 @@ message ByIdRequest {
 
 message Bot {
   int64 id = 1;
+  int64 user_id = 2;
+  string name = 3;
+  string license = 4;
+  string license_locale = 5;
 }
 
 message BotResponse {
@@ -34,7 +38,8 @@ message AllBotsResponse {
 
 message CreateBotRequest {
   string name = 1;
-  string description = 2;
+  string license = 2;
+  string license_locale = 3;
 }
 
 message CreateBotResponse {
@@ -45,7 +50,8 @@ message CreateBotResponse {
 message UpdateBotRequest {
   int64 id = 1;
   string name = 2;
-  string description = 3;
+  string license = 3;
+  string license_locale = 4;
 }
 
 message UpdateBotResponse {
@@ -54,5 +60,116 @@ message UpdateBotResponse {
 }
 
 message DeleteBotResponse {
+  string status = 1;
+}
+
+service TokenService {
+  rpc GetById(ByIdRequest) returns (TokenResponse);
+  rpc GetAll(google.protobuf.Empty) returns (AllTokensResponse);
+  rpc Create(CreateTokenRequest) returns (CreateTokenResponse);
+  rpc Update(UpdateTokenRequest) returns (UpdateTokenResponse);
+  rpc Delete(ByIdRequest) returns (DeleteTokenResponse);
+}
+
+message Token {
+  int64 id = 1;
+  int64 user_id = 2;
+  string status = 3;
+  string token = 4;
+}
+
+message TokenResponse {
+  Token data = 1;
+  string status = 2;
+}
+
+message AllTokensResponse {
+  repeated Token data = 1;
+  string status = 2;
+}
+
+message CreateTokenRequest {
+  repeated string tokens = 1;
+}
+
+message CreateTokenResponse {
+  string status = 1;
+}
+
+message UpdateTokenRequest {
+  int64 id = 1;
+  string status = 2;
+}
+
+message UpdateTokenResponse {
+  Token data = 1;
+  string status = 2;
+}
+
+message DeleteTokenResponse {
+  string status = 1;
+}
+
+service KeyboardService {
+  rpc GetById(ByIdRequest) returns (KeyboardResponse);
+  rpc GetAll(google.protobuf.Empty) returns (AllKeyboardsResponse);
+  rpc Create(CreateKeyboardRequest) returns (CreateKeyboardResponse);
+  rpc Update(UpdateKeyboardRequest) returns (UpdateKeyboardResponse);
+  rpc Delete(ByIdRequest) returns (DeleteKeyboardResponse);
+}
+
+message Keyboard {
+  int64 id = 1;
+  int64 user_id = 2;
+  string name = 3;
+  string func = 4;
+  bool is_main = 5;
+  bool is_data = 6;
+  bool is_link = 7;
+}
+
+message KeyboardResponse {
+  Keyboard data = 1;
+  string status = 2;
+}
+
+message KeyboardData {
+  int64 user_id = 1;
+  string name = 2;
+  string func = 3;
+  bool is_main = 4;
+  bool is_data = 5;
+  bool is_link = 6;
+}
+
+message AllKeyboardsResponse {
+  repeated KeyboardData data = 1;
+  string status = 2;
+}
+
+message CreateKeyboardRequest {
+  repeated Keyboard keyboards = 1;
+}
+
+message CreateKeyboardResponse {
+  string status = 1;
+}
+
+message UpdateKeyboardRequest {
+  int64 id = 1;
+  int64 user_id = 2;
+  string name = 3;
+  string func = 4;
+  bool is_main = 5;
+  bool is_data = 6;
+  bool is_link = 7;
+}
+
+message UpdateKeyboardResponse {
+  Keyboard data = 1;
+  string status = 2;
+}
+
+message DeleteKeyboardResponse {
   string status = 1;
 }
