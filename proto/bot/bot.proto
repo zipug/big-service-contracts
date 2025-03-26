@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package bot;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "./;protocol";
+
+service BotService {
+  rpc GetById(ByIdRequest) returns (BotResponse);
+  rpc GetAll(google.protobuf.Empty) returns (AllBotsResponse);
+  rpc Create(CreateBotRequest) returns (CreateBotResponse);
+  rpc Update(UpdateBotRequest) returns (UpdateBotResponse);
+  rpc Delete(ByIdRequest) returns (DeleteBotResponse);
+}
+
+message ByIdRequest {
+  int64 id = 1;
+}
+
+message Bot {
+  int64 id = 1;
+}
+
+message BotResponse {
+  Bot data = 1;
+  string status = 2;
+}
+
+message AllBotsResponse {
+  repeated Bot data = 1;
+  string status = 2;
+}
+
+message CreateBotRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateBotResponse {
+  int64 data = 1;
+  string status = 2;
+}
+
+message UpdateBotRequest {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message UpdateBotResponse {
+  Bot data = 1;
+  string status = 2;
+}
+
+message DeleteBotResponse {
+  string status = 1;
+}

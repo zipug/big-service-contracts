@@ -38,15 +38,6 @@ service UserService {
   rpc Delete(ByIdRequest) returns (DeleteUserResponse);
 }
 
-service RoleService {
-  rpc GetById(ByIdRequest) returns (RoleResponse);
-  rpc GetAll(google.protobuf.Empty) returns (AllRolesResponse);
-  rpc Create(CreateRoleRequest) returns (CreateRoleResponse);
-  rpc Update(UpdateRoleRequest) returns (UpdateRoleResponse);
-  rpc Delete(ByIdRequest) returns (DeleteRoleResponse);
-  rpc UpdatePermissions(UpdatePermissionsRequest) returns (UpdatePermissionsResponse);
-}
-
 message ByIdRequest {
   int64 id = 1;
 }
@@ -56,6 +47,50 @@ message UpdateUserRequest {
   string email = 2;
   string name = 3;
   string lastname = 4;
+}
+
+message DeleteUserResponse {
+  string status = 1;
+}
+
+message User {
+  int64 id = 1;
+  string state = 2;
+  string email = 3;
+  string name = 4;
+  string lastname = 5;
+  Role role = 6;
+}
+
+message UserResponse {
+  User data = 1;
+  string status = 2;
+}
+
+message AllUsersResponse {
+  repeated User data = 1;
+  string status = 2;
+}
+
+message UpdateUserData {
+  string state = 1;
+  string email = 2;
+  string name = 3;
+  string lastname = 4;
+}
+
+message UpdateUserResponse {
+  UpdateUserData data = 1;
+  string status = 2;
+}
+
+service RoleService {
+  rpc GetById(ByIdRequest) returns (RoleResponse);
+  rpc GetAll(google.protobuf.Empty) returns (AllRolesResponse);
+  rpc Create(CreateRoleRequest) returns (CreateRoleResponse);
+  rpc Update(UpdateRoleRequest) returns (UpdateRoleResponse);
+  rpc Delete(ByIdRequest) returns (DeleteRoleResponse);
+  rpc UpdatePermissions(UpdatePermissionsRequest) returns (UpdatePermissionsResponse);
 }
 
 message UpdatePermissionsRequest {
@@ -104,10 +139,6 @@ message GrantRoleRequest {
   int64 role_id = 2;
 }
 
-message DeleteUserResponse {
-  string status = 1;
-}
-
 message GrantRoleResponse {
   string status = 1;
 }
@@ -129,20 +160,6 @@ message Role {
   bool is_custom = 5;
 }
 
-message User {
-  int64 id = 1;
-  string state = 2;
-  string email = 3;
-  string name = 4;
-  string lastname = 5;
-  Role role = 6;
-}
-
-message UserResponse {
-  User data = 1;
-  string status = 2;
-}
-
 message RoleResponse {
   Role data = 1;
   string status = 2;
@@ -150,22 +167,5 @@ message RoleResponse {
 
 message AllRolesResponse {
   repeated Role data = 1;
-  string status = 2;
-}
-
-message AllUsersResponse {
-  repeated User data = 1;
-  string status = 2;
-}
-
-message UpdateUserData {
-  string state = 1;
-  string email = 2;
-  string name = 3;
-  string lastname = 4;
-}
-
-message UpdateUserResponse {
-  UpdateUserData data = 1;
   string status = 2;
 }
