@@ -108,7 +108,7 @@ message CreateProductData {
 }
 
 message CreateProductRequest {
-  repeated CreateCategoryData products = 1;
+  repeated CreateProductData products = 1;
 }
 
 message CreateProductResponse {
