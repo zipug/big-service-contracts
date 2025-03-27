@@ -141,19 +141,8 @@ message KeyboardResponse {
   string status = 2;
 }
 
-message KeyboardData {
-  int64 user_id = 1;
-  string name = 2;
-  string func = 3;
-  string name_locale = 4;
-  string func_locale = 5;
-  bool is_main = 6;
-  bool is_data = 7;
-  bool is_link = 8;
-}
-
 message AllKeyboardsResponse {
-  repeated KeyboardData data = 1;
+  repeated Keyboard data = 1;
   string status = 2;
 }
 
