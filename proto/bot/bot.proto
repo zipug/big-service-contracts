@@ -55,8 +55,9 @@ message CreateBotResponse {
 message UpdateBotRequest {
   int64 id = 1;
   string name = 2;
-  string license = 3;
-  string license_locale = 4;
+  string tg_channel = 3;
+  string license = 4;
+  string license_locale = 5;
 }
 
 message UpdateBotResponse {
