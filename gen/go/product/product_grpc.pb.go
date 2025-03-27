@@ -32,7 +32,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CategoryServiceClient interface {
 	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*CategoryResponse, error)
-	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllCategoryResponse, error)
+	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CategoryResponse, error)
 	Create(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryResponse, error)
 	Update(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*UpdateCategoryResponse, error)
 	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error)
@@ -56,9 +56,9 @@ func (c *categoryServiceClient) GetById(ctx context.Context, in *ByIdRequest, op
 	return out, nil
 }
 
-func (c *categoryServiceClient) GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllCategoryResponse, error) {
+func (c *categoryServiceClient) GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CategoryResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AllCategoryResponse)
+	out := new(CategoryResponse)
 	err := c.cc.Invoke(ctx, CategoryService_GetAll_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (c *categoryServiceClient) Delete(ctx context.Context, in *ByIdRequest, opt
 // for forward compatibility.
 type CategoryServiceServer interface {
 	GetById(context.Context, *ByIdRequest) (*CategoryResponse, error)
-	GetAll(context.Context, *emptypb.Empty) (*AllCategoryResponse, error)
+	GetAll(context.Context, *emptypb.Empty) (*CategoryResponse, error)
 	Create(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error)
 	Update(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error)
 	Delete(context.Context, *ByIdRequest) (*DeleteCategoryResponse, error)
@@ -118,7 +118,7 @@ type UnimplementedCategoryServiceServer struct{}
 func (UnimplementedCategoryServiceServer) GetById(context.Context, *ByIdRequest) (*CategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
-func (UnimplementedCategoryServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllCategoryResponse, error) {
+func (UnimplementedCategoryServiceServer) GetAll(context.Context, *emptypb.Empty) (*CategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
 }
 func (UnimplementedCategoryServiceServer) Create(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error) {

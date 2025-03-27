@@ -8,7 +8,7 @@ option go_package = "./;protocol";
 
 service CategoryService {
   rpc GetById(ByIdRequest) returns (CategoryResponse);
-  rpc GetAll(google.protobuf.Empty) returns (AllCategoryResponse);
+  rpc GetAll(google.protobuf.Empty) returns (CategoryResponse);
   rpc Create(CreateCategoryRequest) returns (CreateCategoryResponse);
   rpc Update(UpdateCategoryRequest) returns (UpdateCategoryResponse);
   rpc Delete(ByIdRequest) returns (DeleteCategoryResponse);
@@ -29,11 +29,6 @@ message Category {
 }
 
 message CategoryResponse {
-  Category data = 1;
-  string status = 2;
-}
-
-message AllCategoryResponse {
   repeated Category data = 1;
   string status = 2;
 }
