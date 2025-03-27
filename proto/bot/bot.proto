@@ -43,8 +43,7 @@ message CreateBotRequest {
 }
 
 message CreateBotResponse {
-  int64 data = 1;
-  string status = 2;
+  string status = 1;
 }
 
 message UpdateBotRequest {
