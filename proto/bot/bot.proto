@@ -128,9 +128,9 @@ message Keyboard {
   int64 id = 1;
   int64 user_id = 2;
   string name = 3;
-  string func = 4;
-  string name_locale = 5;
-  string func_locale = 6;
+  optional string func = 4;
+  optional string name_locale = 5;
+  optional string func_locale = 6;
   bool is_main = 7;
   bool is_data = 8;
   bool is_link = 9;
@@ -158,9 +158,9 @@ message UpdateKeyboardRequest {
   int64 id = 1;
   int64 user_id = 2;
   string name = 3;
-  string func = 4;
-  string name_locale = 5;
-  string func_locale = 6;
+  optional string func = 4;
+  optional string name_locale = 5;
+  optional string func_locale = 6;
   bool is_main = 7;
   bool is_data = 8;
   bool is_link = 9;
