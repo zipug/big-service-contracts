@@ -129,9 +129,11 @@ message Keyboard {
   int64 user_id = 2;
   string name = 3;
   string func = 4;
-  bool is_main = 5;
-  bool is_data = 6;
-  bool is_link = 7;
+  string name_locale = 5;
+  string func_locale = 6;
+  bool is_main = 7;
+  bool is_data = 8;
+  bool is_link = 9;
 }
 
 message KeyboardResponse {
@@ -143,9 +145,11 @@ message KeyboardData {
   int64 user_id = 1;
   string name = 2;
   string func = 3;
-  bool is_main = 4;
-  bool is_data = 5;
-  bool is_link = 6;
+  string name_locale = 4;
+  string func_locale = 5;
+  bool is_main = 6;
+  bool is_data = 7;
+  bool is_link = 8;
 }
 
 message AllKeyboardsResponse {
@@ -166,9 +170,11 @@ message UpdateKeyboardRequest {
   int64 user_id = 2;
   string name = 3;
   string func = 4;
-  bool is_main = 5;
-  bool is_data = 6;
-  bool is_link = 7;
+  string name_locale = 5;
+  string func_locale = 6;
+  bool is_main = 7;
+  bool is_data = 8;
+  bool is_link = 9;
 }
 
 message UpdateKeyboardResponse {
