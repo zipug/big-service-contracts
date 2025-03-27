@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package bot;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "./;protocol";
+
+service CategoryService {
+  rpc GetById(ByIdRequest) returns (CategoryResponse);
+  rpc GetAll(google.protobuf.Empty) returns (AllCategoryResponse);
+  rpc Create(CreateCategoryRequest) returns (CreateCategoryResponse);
+  rpc Update(UpdateCategoryRequest) returns (UpdateCategoryResponse);
+  rpc Delete(ByIdRequest) returns (DeleteCategoryResponse);
+}
+
+message ByIdRequest {
+  int64 id = 1;
+}
+
+message Category {
+  int64 id = 1;
+  int64 user_id = 2;
+  string name = 3;
+  optional string description = 4;
+  optional string name_locale = 5;
+  optional string description_locale = 6;
+  int64 parent_id = 7;
+}
+
+message CategoryResponse {
+  Category data = 1;
+  string status = 2;
+}
+
+message AllCategoryResponse {
+  repeated Category data = 1;
+  string status = 2;
+}
+
+message CreateCategoryData {
+  string name = 1;
+  optional string description = 2;
+  optional string name_locale = 3;
+  optional string description_locale = 4;
+  int64 parent_id = 5;
+}
+
+message CreateCategoryRequest {
+  repeated CreateCategoryData categories = 1;
+}
+
+message CreateCategoryResponse {
+  string status = 1;
+}
+
+message UpdateCategoryRequest {
+  int64 id = 1;
+  string name = 2;
+  optional string description = 3;
+  optional string name_locale = 4;
+  optional string description_locale = 5;
+  int64 parent_id = 6;
+}
+
+message UpdateCategoryResponse {
+  Category data = 1;
+  string status = 2;
+}
+
+message DeleteCategoryResponse {
+  string status = 1;
+}
+
+service ProductService {
+  rpc GetById(ByIdRequest) returns (ProductResponse);
+  rpc GetAll(google.protobuf.Empty) returns (AllProductsResponse);
+  rpc Create(CreateProductRequest) returns (CreateProductResponse);
+  rpc Update(UpdateProductRequest) returns (UpdateProductResponse);
+  rpc Delete(ByIdRequest) returns (DeleteProductResponse);
+}
+
+message Product {
+  int64 id = 1;
+  int64 user_id = 2;
+  int64 category_id = 3;
+  string name = 4;
+  optional string description = 5;
+  optional string name_locale = 6;
+  optional string description_locale = 7;
+  string value = 8;
+  int64 cost = 9;
+}
+
+message ProductResponse {
+  Product data = 1;
+  string status = 2;
+}
+
+message AllProductsResponse {
+  repeated Product data = 1;
+  string status = 2;
+}
+
+message CreateProductData {
+  string name = 1;
+  int64 category_id = 2;
+  optional string description = 3;
+  optional string name_locale = 4;
+  optional string description_locale = 5;
+  string value = 6;
+  int64 cost = 7;
+}
+
+message CreateProductRequest {
+  repeated CreateCategoryData products = 1;
+}
+
+message CreateProductResponse {
+  string status = 1;
+}
+
+message UpdateProductRequest {
+  int64 id = 1;
+  int64 category_id = 2;
+  string name = 3;
+  optional string description = 4;
+  optional string name_locale = 5;
+  optional string description_locale = 6;
+  string value = 7;
+  int64 cost = 8;
+}
+
+message UpdateProductResponse {
+  Product data = 1;
+  string status = 2;
+}
+
+message DeleteProductResponse {
+  string status = 1;
+}
