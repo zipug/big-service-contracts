@@ -4,7 +4,7 @@ package bot;
 
 import "google/protobuf/empty.proto";
 
-option go_package = "./;protocol";
+option go_package = "github.com/zipug/big-service-contracts/gen/go/product";
 
 service CategoryService {
   rpc GetById(ByIdRequest) returns (CategoryResponse);

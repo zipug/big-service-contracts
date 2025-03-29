@@ -4,7 +4,7 @@ package user;
 
 import "google/protobuf/empty.proto";
 
-option go_package = "./;protocol";
+option go_package = "github.com/zipug/big-service-contracts/gen/go/user";
 
 service AuthService {
   rpc Login(LoginRequest) returns (AuthResponse);

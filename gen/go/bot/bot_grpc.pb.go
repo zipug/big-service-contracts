@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: bot/bot.proto
 
-package protocol
+package bot
 
 import (
 	context "context"
