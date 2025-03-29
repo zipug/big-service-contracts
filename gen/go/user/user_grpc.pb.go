@@ -210,12 +210,12 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	GetById(ctx context.Context, in *UserByIdRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	GetMe(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*UserResponse, error)
 	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllUsersResponse, error)
 	Update(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	GrantRole(ctx context.Context, in *GrantRoleRequest, opts ...grpc.CallOption) (*GrantRoleResponse, error)
-	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
+	Delete(ctx context.Context, in *UserByIdRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 }
 
 type userServiceClient struct {
@@ -226,7 +226,7 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*UserResponse, error) {
+func (c *userServiceClient) GetById(ctx context.Context, in *UserByIdRequest, opts ...grpc.CallOption) (*UserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserResponse)
 	err := c.cc.Invoke(ctx, UserService_GetById_FullMethodName, in, out, cOpts...)
@@ -276,7 +276,7 @@ func (c *userServiceClient) GrantRole(ctx context.Context, in *GrantRoleRequest,
 	return out, nil
 }
 
-func (c *userServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
+func (c *userServiceClient) Delete(ctx context.Context, in *UserByIdRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteUserResponse)
 	err := c.cc.Invoke(ctx, UserService_Delete_FullMethodName, in, out, cOpts...)
@@ -290,12 +290,12 @@ func (c *userServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ..
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
 type UserServiceServer interface {
-	GetById(context.Context, *ByIdRequest) (*UserResponse, error)
+	GetById(context.Context, *UserByIdRequest) (*UserResponse, error)
 	GetMe(context.Context, *emptypb.Empty) (*UserResponse, error)
 	GetAll(context.Context, *emptypb.Empty) (*AllUsersResponse, error)
 	Update(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	GrantRole(context.Context, *GrantRoleRequest) (*GrantRoleResponse, error)
-	Delete(context.Context, *ByIdRequest) (*DeleteUserResponse, error)
+	Delete(context.Context, *UserByIdRequest) (*DeleteUserResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -306,7 +306,7 @@ type UserServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserServiceServer struct{}
 
-func (UnimplementedUserServiceServer) GetById(context.Context, *ByIdRequest) (*UserResponse, error) {
+func (UnimplementedUserServiceServer) GetById(context.Context, *UserByIdRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
 func (UnimplementedUserServiceServer) GetMe(context.Context, *emptypb.Empty) (*UserResponse, error) {
@@ -321,7 +321,7 @@ func (UnimplementedUserServiceServer) Update(context.Context, *UpdateUserRequest
 func (UnimplementedUserServiceServer) GrantRole(context.Context, *GrantRoleRequest) (*GrantRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GrantRole not implemented")
 }
-func (UnimplementedUserServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteUserResponse, error) {
+func (UnimplementedUserServiceServer) Delete(context.Context, *UserByIdRequest) (*DeleteUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
@@ -346,7 +346,7 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 }
 
 func _UserService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(UserByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -358,7 +358,7 @@ func _UserService_GetById_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: UserService_GetById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetById(ctx, req.(*ByIdRequest))
+		return srv.(UserServiceServer).GetById(ctx, req.(*UserByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -436,7 +436,7 @@ func _UserService_GrantRole_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _UserService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(UserByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -448,7 +448,7 @@ func _UserService_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: UserService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Delete(ctx, req.(*ByIdRequest))
+		return srv.(UserServiceServer).Delete(ctx, req.(*UserByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -502,11 +502,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RoleServiceClient interface {
-	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*RoleResponse, error)
+	GetById(ctx context.Context, in *UserByIdRequest, opts ...grpc.CallOption) (*RoleResponse, error)
 	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllRolesResponse, error)
 	Create(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*CreateRoleResponse, error)
 	Update(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*UpdateRoleResponse, error)
-	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteRoleResponse, error)
+	Delete(ctx context.Context, in *UserByIdRequest, opts ...grpc.CallOption) (*DeleteRoleResponse, error)
 	UpdatePermissions(ctx context.Context, in *UpdatePermissionsRequest, opts ...grpc.CallOption) (*UpdatePermissionsResponse, error)
 }
 
@@ -518,7 +518,7 @@ func NewRoleServiceClient(cc grpc.ClientConnInterface) RoleServiceClient {
 	return &roleServiceClient{cc}
 }
 
-func (c *roleServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*RoleResponse, error) {
+func (c *roleServiceClient) GetById(ctx context.Context, in *UserByIdRequest, opts ...grpc.CallOption) (*RoleResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RoleResponse)
 	err := c.cc.Invoke(ctx, RoleService_GetById_FullMethodName, in, out, cOpts...)
@@ -558,7 +558,7 @@ func (c *roleServiceClient) Update(ctx context.Context, in *UpdateRoleRequest, o
 	return out, nil
 }
 
-func (c *roleServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteRoleResponse, error) {
+func (c *roleServiceClient) Delete(ctx context.Context, in *UserByIdRequest, opts ...grpc.CallOption) (*DeleteRoleResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteRoleResponse)
 	err := c.cc.Invoke(ctx, RoleService_Delete_FullMethodName, in, out, cOpts...)
@@ -582,11 +582,11 @@ func (c *roleServiceClient) UpdatePermissions(ctx context.Context, in *UpdatePer
 // All implementations must embed UnimplementedRoleServiceServer
 // for forward compatibility.
 type RoleServiceServer interface {
-	GetById(context.Context, *ByIdRequest) (*RoleResponse, error)
+	GetById(context.Context, *UserByIdRequest) (*RoleResponse, error)
 	GetAll(context.Context, *emptypb.Empty) (*AllRolesResponse, error)
 	Create(context.Context, *CreateRoleRequest) (*CreateRoleResponse, error)
 	Update(context.Context, *UpdateRoleRequest) (*UpdateRoleResponse, error)
-	Delete(context.Context, *ByIdRequest) (*DeleteRoleResponse, error)
+	Delete(context.Context, *UserByIdRequest) (*DeleteRoleResponse, error)
 	UpdatePermissions(context.Context, *UpdatePermissionsRequest) (*UpdatePermissionsResponse, error)
 	mustEmbedUnimplementedRoleServiceServer()
 }
@@ -598,7 +598,7 @@ type RoleServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedRoleServiceServer struct{}
 
-func (UnimplementedRoleServiceServer) GetById(context.Context, *ByIdRequest) (*RoleResponse, error) {
+func (UnimplementedRoleServiceServer) GetById(context.Context, *UserByIdRequest) (*RoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
 func (UnimplementedRoleServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllRolesResponse, error) {
@@ -610,7 +610,7 @@ func (UnimplementedRoleServiceServer) Create(context.Context, *CreateRoleRequest
 func (UnimplementedRoleServiceServer) Update(context.Context, *UpdateRoleRequest) (*UpdateRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedRoleServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteRoleResponse, error) {
+func (UnimplementedRoleServiceServer) Delete(context.Context, *UserByIdRequest) (*DeleteRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedRoleServiceServer) UpdatePermissions(context.Context, *UpdatePermissionsRequest) (*UpdatePermissionsResponse, error) {
@@ -638,7 +638,7 @@ func RegisterRoleServiceServer(s grpc.ServiceRegistrar, srv RoleServiceServer) {
 }
 
 func _RoleService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(UserByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -650,7 +650,7 @@ func _RoleService_GetById_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: RoleService_GetById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleServiceServer).GetById(ctx, req.(*ByIdRequest))
+		return srv.(RoleServiceServer).GetById(ctx, req.(*UserByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -710,7 +710,7 @@ func _RoleService_Update_Handler(srv interface{}, ctx context.Context, dec func(
 }
 
 func _RoleService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(UserByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -722,7 +722,7 @@ func _RoleService_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: RoleService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleServiceServer).Delete(ctx, req.(*ByIdRequest))
+		return srv.(RoleServiceServer).Delete(ctx, req.(*UserByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

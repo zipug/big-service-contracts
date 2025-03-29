@@ -31,11 +31,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BotServiceClient interface {
-	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*BotResponse, error)
+	GetById(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*BotResponse, error)
 	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllBotsResponse, error)
 	Create(ctx context.Context, in *CreateBotRequest, opts ...grpc.CallOption) (*CreateBotResponse, error)
 	Update(ctx context.Context, in *UpdateBotRequest, opts ...grpc.CallOption) (*UpdateBotResponse, error)
-	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteBotResponse, error)
+	Delete(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*DeleteBotResponse, error)
 }
 
 type botServiceClient struct {
@@ -46,7 +46,7 @@ func NewBotServiceClient(cc grpc.ClientConnInterface) BotServiceClient {
 	return &botServiceClient{cc}
 }
 
-func (c *botServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*BotResponse, error) {
+func (c *botServiceClient) GetById(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*BotResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(BotResponse)
 	err := c.cc.Invoke(ctx, BotService_GetById_FullMethodName, in, out, cOpts...)
@@ -86,7 +86,7 @@ func (c *botServiceClient) Update(ctx context.Context, in *UpdateBotRequest, opt
 	return out, nil
 }
 
-func (c *botServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteBotResponse, error) {
+func (c *botServiceClient) Delete(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*DeleteBotResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteBotResponse)
 	err := c.cc.Invoke(ctx, BotService_Delete_FullMethodName, in, out, cOpts...)
@@ -100,11 +100,11 @@ func (c *botServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...
 // All implementations must embed UnimplementedBotServiceServer
 // for forward compatibility.
 type BotServiceServer interface {
-	GetById(context.Context, *ByIdRequest) (*BotResponse, error)
+	GetById(context.Context, *BotByIdRequest) (*BotResponse, error)
 	GetAll(context.Context, *emptypb.Empty) (*AllBotsResponse, error)
 	Create(context.Context, *CreateBotRequest) (*CreateBotResponse, error)
 	Update(context.Context, *UpdateBotRequest) (*UpdateBotResponse, error)
-	Delete(context.Context, *ByIdRequest) (*DeleteBotResponse, error)
+	Delete(context.Context, *BotByIdRequest) (*DeleteBotResponse, error)
 	mustEmbedUnimplementedBotServiceServer()
 }
 
@@ -115,7 +115,7 @@ type BotServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedBotServiceServer struct{}
 
-func (UnimplementedBotServiceServer) GetById(context.Context, *ByIdRequest) (*BotResponse, error) {
+func (UnimplementedBotServiceServer) GetById(context.Context, *BotByIdRequest) (*BotResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
 func (UnimplementedBotServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllBotsResponse, error) {
@@ -127,7 +127,7 @@ func (UnimplementedBotServiceServer) Create(context.Context, *CreateBotRequest) 
 func (UnimplementedBotServiceServer) Update(context.Context, *UpdateBotRequest) (*UpdateBotResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedBotServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteBotResponse, error) {
+func (UnimplementedBotServiceServer) Delete(context.Context, *BotByIdRequest) (*DeleteBotResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedBotServiceServer) mustEmbedUnimplementedBotServiceServer() {}
@@ -152,7 +152,7 @@ func RegisterBotServiceServer(s grpc.ServiceRegistrar, srv BotServiceServer) {
 }
 
 func _BotService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(BotByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -164,7 +164,7 @@ func _BotService_GetById_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: BotService_GetById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BotServiceServer).GetById(ctx, req.(*ByIdRequest))
+		return srv.(BotServiceServer).GetById(ctx, req.(*BotByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,7 +224,7 @@ func _BotService_Update_Handler(srv interface{}, ctx context.Context, dec func(i
 }
 
 func _BotService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(BotByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -236,7 +236,7 @@ func _BotService_Delete_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: BotService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BotServiceServer).Delete(ctx, req.(*ByIdRequest))
+		return srv.(BotServiceServer).Delete(ctx, req.(*BotByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -285,11 +285,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TokenServiceClient interface {
-	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*TokenResponse, error)
+	GetById(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*TokenResponse, error)
 	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllTokensResponse, error)
 	Create(ctx context.Context, in *CreateTokenRequest, opts ...grpc.CallOption) (*CreateTokenResponse, error)
 	Update(ctx context.Context, in *UpdateTokenRequest, opts ...grpc.CallOption) (*UpdateTokenResponse, error)
-	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteTokenResponse, error)
+	Delete(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*DeleteTokenResponse, error)
 }
 
 type tokenServiceClient struct {
@@ -300,7 +300,7 @@ func NewTokenServiceClient(cc grpc.ClientConnInterface) TokenServiceClient {
 	return &tokenServiceClient{cc}
 }
 
-func (c *tokenServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
+func (c *tokenServiceClient) GetById(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*TokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TokenResponse)
 	err := c.cc.Invoke(ctx, TokenService_GetById_FullMethodName, in, out, cOpts...)
@@ -340,7 +340,7 @@ func (c *tokenServiceClient) Update(ctx context.Context, in *UpdateTokenRequest,
 	return out, nil
 }
 
-func (c *tokenServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteTokenResponse, error) {
+func (c *tokenServiceClient) Delete(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*DeleteTokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteTokenResponse)
 	err := c.cc.Invoke(ctx, TokenService_Delete_FullMethodName, in, out, cOpts...)
@@ -354,11 +354,11 @@ func (c *tokenServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts .
 // All implementations must embed UnimplementedTokenServiceServer
 // for forward compatibility.
 type TokenServiceServer interface {
-	GetById(context.Context, *ByIdRequest) (*TokenResponse, error)
+	GetById(context.Context, *BotByIdRequest) (*TokenResponse, error)
 	GetAll(context.Context, *emptypb.Empty) (*AllTokensResponse, error)
 	Create(context.Context, *CreateTokenRequest) (*CreateTokenResponse, error)
 	Update(context.Context, *UpdateTokenRequest) (*UpdateTokenResponse, error)
-	Delete(context.Context, *ByIdRequest) (*DeleteTokenResponse, error)
+	Delete(context.Context, *BotByIdRequest) (*DeleteTokenResponse, error)
 	mustEmbedUnimplementedTokenServiceServer()
 }
 
@@ -369,7 +369,7 @@ type TokenServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedTokenServiceServer struct{}
 
-func (UnimplementedTokenServiceServer) GetById(context.Context, *ByIdRequest) (*TokenResponse, error) {
+func (UnimplementedTokenServiceServer) GetById(context.Context, *BotByIdRequest) (*TokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
 func (UnimplementedTokenServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllTokensResponse, error) {
@@ -381,7 +381,7 @@ func (UnimplementedTokenServiceServer) Create(context.Context, *CreateTokenReque
 func (UnimplementedTokenServiceServer) Update(context.Context, *UpdateTokenRequest) (*UpdateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedTokenServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteTokenResponse, error) {
+func (UnimplementedTokenServiceServer) Delete(context.Context, *BotByIdRequest) (*DeleteTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedTokenServiceServer) mustEmbedUnimplementedTokenServiceServer() {}
@@ -406,7 +406,7 @@ func RegisterTokenServiceServer(s grpc.ServiceRegistrar, srv TokenServiceServer)
 }
 
 func _TokenService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(BotByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -418,7 +418,7 @@ func _TokenService_GetById_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: TokenService_GetById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TokenServiceServer).GetById(ctx, req.(*ByIdRequest))
+		return srv.(TokenServiceServer).GetById(ctx, req.(*BotByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -478,7 +478,7 @@ func _TokenService_Update_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _TokenService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(BotByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -490,7 +490,7 @@ func _TokenService_Delete_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: TokenService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TokenServiceServer).Delete(ctx, req.(*ByIdRequest))
+		return srv.(TokenServiceServer).Delete(ctx, req.(*BotByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -539,11 +539,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type KeyboardServiceClient interface {
-	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*KeyboardResponse, error)
+	GetById(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*KeyboardResponse, error)
 	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllKeyboardsResponse, error)
 	Create(ctx context.Context, in *CreateKeyboardRequest, opts ...grpc.CallOption) (*CreateKeyboardResponse, error)
 	Update(ctx context.Context, in *UpdateKeyboardRequest, opts ...grpc.CallOption) (*UpdateKeyboardResponse, error)
-	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteKeyboardResponse, error)
+	Delete(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*DeleteKeyboardResponse, error)
 }
 
 type keyboardServiceClient struct {
@@ -554,7 +554,7 @@ func NewKeyboardServiceClient(cc grpc.ClientConnInterface) KeyboardServiceClient
 	return &keyboardServiceClient{cc}
 }
 
-func (c *keyboardServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*KeyboardResponse, error) {
+func (c *keyboardServiceClient) GetById(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*KeyboardResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(KeyboardResponse)
 	err := c.cc.Invoke(ctx, KeyboardService_GetById_FullMethodName, in, out, cOpts...)
@@ -594,7 +594,7 @@ func (c *keyboardServiceClient) Update(ctx context.Context, in *UpdateKeyboardRe
 	return out, nil
 }
 
-func (c *keyboardServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteKeyboardResponse, error) {
+func (c *keyboardServiceClient) Delete(ctx context.Context, in *BotByIdRequest, opts ...grpc.CallOption) (*DeleteKeyboardResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteKeyboardResponse)
 	err := c.cc.Invoke(ctx, KeyboardService_Delete_FullMethodName, in, out, cOpts...)
@@ -608,11 +608,11 @@ func (c *keyboardServiceClient) Delete(ctx context.Context, in *ByIdRequest, opt
 // All implementations must embed UnimplementedKeyboardServiceServer
 // for forward compatibility.
 type KeyboardServiceServer interface {
-	GetById(context.Context, *ByIdRequest) (*KeyboardResponse, error)
+	GetById(context.Context, *BotByIdRequest) (*KeyboardResponse, error)
 	GetAll(context.Context, *emptypb.Empty) (*AllKeyboardsResponse, error)
 	Create(context.Context, *CreateKeyboardRequest) (*CreateKeyboardResponse, error)
 	Update(context.Context, *UpdateKeyboardRequest) (*UpdateKeyboardResponse, error)
-	Delete(context.Context, *ByIdRequest) (*DeleteKeyboardResponse, error)
+	Delete(context.Context, *BotByIdRequest) (*DeleteKeyboardResponse, error)
 	mustEmbedUnimplementedKeyboardServiceServer()
 }
 
@@ -623,7 +623,7 @@ type KeyboardServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedKeyboardServiceServer struct{}
 
-func (UnimplementedKeyboardServiceServer) GetById(context.Context, *ByIdRequest) (*KeyboardResponse, error) {
+func (UnimplementedKeyboardServiceServer) GetById(context.Context, *BotByIdRequest) (*KeyboardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
 func (UnimplementedKeyboardServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllKeyboardsResponse, error) {
@@ -635,7 +635,7 @@ func (UnimplementedKeyboardServiceServer) Create(context.Context, *CreateKeyboar
 func (UnimplementedKeyboardServiceServer) Update(context.Context, *UpdateKeyboardRequest) (*UpdateKeyboardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedKeyboardServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteKeyboardResponse, error) {
+func (UnimplementedKeyboardServiceServer) Delete(context.Context, *BotByIdRequest) (*DeleteKeyboardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedKeyboardServiceServer) mustEmbedUnimplementedKeyboardServiceServer() {}
@@ -660,7 +660,7 @@ func RegisterKeyboardServiceServer(s grpc.ServiceRegistrar, srv KeyboardServiceS
 }
 
 func _KeyboardService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(BotByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -672,7 +672,7 @@ func _KeyboardService_GetById_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: KeyboardService_GetById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KeyboardServiceServer).GetById(ctx, req.(*ByIdRequest))
+		return srv.(KeyboardServiceServer).GetById(ctx, req.(*BotByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -732,7 +732,7 @@ func _KeyboardService_Update_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _KeyboardService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(BotByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -744,7 +744,7 @@ func _KeyboardService_Delete_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: KeyboardService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KeyboardServiceServer).Delete(ctx, req.(*ByIdRequest))
+		return srv.(KeyboardServiceServer).Delete(ctx, req.(*BotByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -40,15 +40,15 @@ message RegisterRequest {
 }
 
 service UserService {
-  rpc GetById(ByIdRequest) returns (UserResponse);
+  rpc GetById(UserByIdRequest) returns (UserResponse);
   rpc GetMe(google.protobuf.Empty) returns (UserResponse);
   rpc GetAll(google.protobuf.Empty) returns (AllUsersResponse);
   rpc Update(UpdateUserRequest) returns (UpdateUserResponse);
   rpc GrantRole(GrantRoleRequest) returns (GrantRoleResponse);
-  rpc Delete(ByIdRequest) returns (DeleteUserResponse);
+  rpc Delete(UserByIdRequest) returns (DeleteUserResponse);
 }
 
-message ByIdRequest {
+message UserByIdRequest {
   int64 id = 1;
 }
 
@@ -95,11 +95,11 @@ message UpdateUserResponse {
 }
 
 service RoleService {
-  rpc GetById(ByIdRequest) returns (RoleResponse);
+  rpc GetById(UserByIdRequest) returns (RoleResponse);
   rpc GetAll(google.protobuf.Empty) returns (AllRolesResponse);
   rpc Create(CreateRoleRequest) returns (CreateRoleResponse);
   rpc Update(UpdateRoleRequest) returns (UpdateRoleResponse);
-  rpc Delete(ByIdRequest) returns (DeleteRoleResponse);
+  rpc Delete(UserByIdRequest) returns (DeleteRoleResponse);
   rpc UpdatePermissions(UpdatePermissionsRequest) returns (UpdatePermissionsResponse);
 }
 

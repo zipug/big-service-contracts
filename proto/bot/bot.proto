@@ -7,14 +7,14 @@ import "google/protobuf/empty.proto";
 option go_package = "github.com/zipug/big-service-contracts/gen/go/bot";
 
 service BotService {
-  rpc GetById(ByIdRequest) returns (BotResponse);
+  rpc GetById(BotByIdRequest) returns (BotResponse);
   rpc GetAll(google.protobuf.Empty) returns (AllBotsResponse);
   rpc Create(CreateBotRequest) returns (CreateBotResponse);
   rpc Update(UpdateBotRequest) returns (UpdateBotResponse);
-  rpc Delete(ByIdRequest) returns (DeleteBotResponse);
+  rpc Delete(BotByIdRequest) returns (DeleteBotResponse);
 }
 
-message ByIdRequest {
+message BotByIdRequest {
   int64 id = 1;
 }
 
@@ -70,11 +70,11 @@ message DeleteBotResponse {
 }
 
 service TokenService {
-  rpc GetById(ByIdRequest) returns (TokenResponse);
+  rpc GetById(BotByIdRequest) returns (TokenResponse);
   rpc GetAll(google.protobuf.Empty) returns (AllTokensResponse);
   rpc Create(CreateTokenRequest) returns (CreateTokenResponse);
   rpc Update(UpdateTokenRequest) returns (UpdateTokenResponse);
-  rpc Delete(ByIdRequest) returns (DeleteTokenResponse);
+  rpc Delete(BotByIdRequest) returns (DeleteTokenResponse);
 }
 
 message Token {
@@ -117,11 +117,11 @@ message DeleteTokenResponse {
 }
 
 service KeyboardService {
-  rpc GetById(ByIdRequest) returns (KeyboardResponse);
+  rpc GetById(BotByIdRequest) returns (KeyboardResponse);
   rpc GetAll(google.protobuf.Empty) returns (AllKeyboardsResponse);
   rpc Create(CreateKeyboardRequest) returns (CreateKeyboardResponse);
   rpc Update(UpdateKeyboardRequest) returns (UpdateKeyboardResponse);
-  rpc Delete(ByIdRequest) returns (DeleteKeyboardResponse);
+  rpc Delete(BotByIdRequest) returns (DeleteKeyboardResponse);
 }
 
 message Keyboard {

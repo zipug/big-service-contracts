@@ -7,14 +7,14 @@ import "google/protobuf/empty.proto";
 option go_package = "github.com/zipug/big-service-contracts/gen/go/product";
 
 service CategoryService {
-  rpc GetById(ByIdRequest) returns (CategoryResponse);
+  rpc GetById(ProductByIdRequest) returns (CategoryResponse);
   rpc GetAll(google.protobuf.Empty) returns (CategoryResponse);
   rpc Create(CreateCategoryRequest) returns (CreateCategoryResponse);
   rpc Update(UpdateCategoryRequest) returns (UpdateCategoryResponse);
-  rpc Delete(ByIdRequest) returns (DeleteCategoryResponse);
+  rpc Delete(ProductByIdRequest) returns (DeleteCategoryResponse);
 }
 
-message ByIdRequest {
+message ProductByIdRequest {
   int64 id = 1;
 }
 
@@ -68,11 +68,11 @@ message DeleteCategoryResponse {
 }
 
 service ProductService {
-  rpc GetById(ByIdRequest) returns (ProductResponse);
+  rpc GetById(ProductByIdRequest) returns (ProductResponse);
   rpc GetAll(google.protobuf.Empty) returns (AllProductsResponse);
   rpc Create(CreateProductRequest) returns (CreateProductResponse);
   rpc Update(UpdateProductRequest) returns (UpdateProductResponse);
-  rpc Delete(ByIdRequest) returns (DeleteProductResponse);
+  rpc Delete(ProductByIdRequest) returns (DeleteProductResponse);
 }
 
 message Product {

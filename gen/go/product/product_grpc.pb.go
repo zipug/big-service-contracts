@@ -31,11 +31,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CategoryServiceClient interface {
-	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*CategoryResponse, error)
+	GetById(ctx context.Context, in *ProductByIdRequest, opts ...grpc.CallOption) (*CategoryResponse, error)
 	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CategoryResponse, error)
 	Create(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryResponse, error)
 	Update(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*UpdateCategoryResponse, error)
-	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error)
+	Delete(ctx context.Context, in *ProductByIdRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error)
 }
 
 type categoryServiceClient struct {
@@ -46,7 +46,7 @@ func NewCategoryServiceClient(cc grpc.ClientConnInterface) CategoryServiceClient
 	return &categoryServiceClient{cc}
 }
 
-func (c *categoryServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*CategoryResponse, error) {
+func (c *categoryServiceClient) GetById(ctx context.Context, in *ProductByIdRequest, opts ...grpc.CallOption) (*CategoryResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CategoryResponse)
 	err := c.cc.Invoke(ctx, CategoryService_GetById_FullMethodName, in, out, cOpts...)
@@ -86,7 +86,7 @@ func (c *categoryServiceClient) Update(ctx context.Context, in *UpdateCategoryRe
 	return out, nil
 }
 
-func (c *categoryServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error) {
+func (c *categoryServiceClient) Delete(ctx context.Context, in *ProductByIdRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteCategoryResponse)
 	err := c.cc.Invoke(ctx, CategoryService_Delete_FullMethodName, in, out, cOpts...)
@@ -100,11 +100,11 @@ func (c *categoryServiceClient) Delete(ctx context.Context, in *ByIdRequest, opt
 // All implementations must embed UnimplementedCategoryServiceServer
 // for forward compatibility.
 type CategoryServiceServer interface {
-	GetById(context.Context, *ByIdRequest) (*CategoryResponse, error)
+	GetById(context.Context, *ProductByIdRequest) (*CategoryResponse, error)
 	GetAll(context.Context, *emptypb.Empty) (*CategoryResponse, error)
 	Create(context.Context, *CreateCategoryRequest) (*CreateCategoryResponse, error)
 	Update(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error)
-	Delete(context.Context, *ByIdRequest) (*DeleteCategoryResponse, error)
+	Delete(context.Context, *ProductByIdRequest) (*DeleteCategoryResponse, error)
 	mustEmbedUnimplementedCategoryServiceServer()
 }
 
@@ -115,7 +115,7 @@ type CategoryServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCategoryServiceServer struct{}
 
-func (UnimplementedCategoryServiceServer) GetById(context.Context, *ByIdRequest) (*CategoryResponse, error) {
+func (UnimplementedCategoryServiceServer) GetById(context.Context, *ProductByIdRequest) (*CategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
 func (UnimplementedCategoryServiceServer) GetAll(context.Context, *emptypb.Empty) (*CategoryResponse, error) {
@@ -127,7 +127,7 @@ func (UnimplementedCategoryServiceServer) Create(context.Context, *CreateCategor
 func (UnimplementedCategoryServiceServer) Update(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedCategoryServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteCategoryResponse, error) {
+func (UnimplementedCategoryServiceServer) Delete(context.Context, *ProductByIdRequest) (*DeleteCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedCategoryServiceServer) mustEmbedUnimplementedCategoryServiceServer() {}
@@ -152,7 +152,7 @@ func RegisterCategoryServiceServer(s grpc.ServiceRegistrar, srv CategoryServiceS
 }
 
 func _CategoryService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(ProductByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -164,7 +164,7 @@ func _CategoryService_GetById_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: CategoryService_GetById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CategoryServiceServer).GetById(ctx, req.(*ByIdRequest))
+		return srv.(CategoryServiceServer).GetById(ctx, req.(*ProductByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,7 +224,7 @@ func _CategoryService_Update_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _CategoryService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(ProductByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -236,7 +236,7 @@ func _CategoryService_Delete_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: CategoryService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CategoryServiceServer).Delete(ctx, req.(*ByIdRequest))
+		return srv.(CategoryServiceServer).Delete(ctx, req.(*ProductByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -285,11 +285,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
-	GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*ProductResponse, error)
+	GetById(ctx context.Context, in *ProductByIdRequest, opts ...grpc.CallOption) (*ProductResponse, error)
 	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllProductsResponse, error)
 	Create(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error)
 	Update(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
-	Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
+	Delete(ctx context.Context, in *ProductByIdRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
 }
 
 type productServiceClient struct {
@@ -300,7 +300,7 @@ func NewProductServiceClient(cc grpc.ClientConnInterface) ProductServiceClient {
 	return &productServiceClient{cc}
 }
 
-func (c *productServiceClient) GetById(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*ProductResponse, error) {
+func (c *productServiceClient) GetById(ctx context.Context, in *ProductByIdRequest, opts ...grpc.CallOption) (*ProductResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ProductResponse)
 	err := c.cc.Invoke(ctx, ProductService_GetById_FullMethodName, in, out, cOpts...)
@@ -340,7 +340,7 @@ func (c *productServiceClient) Update(ctx context.Context, in *UpdateProductRequ
 	return out, nil
 }
 
-func (c *productServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error) {
+func (c *productServiceClient) Delete(ctx context.Context, in *ProductByIdRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteProductResponse)
 	err := c.cc.Invoke(ctx, ProductService_Delete_FullMethodName, in, out, cOpts...)
@@ -354,11 +354,11 @@ func (c *productServiceClient) Delete(ctx context.Context, in *ByIdRequest, opts
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility.
 type ProductServiceServer interface {
-	GetById(context.Context, *ByIdRequest) (*ProductResponse, error)
+	GetById(context.Context, *ProductByIdRequest) (*ProductResponse, error)
 	GetAll(context.Context, *emptypb.Empty) (*AllProductsResponse, error)
 	Create(context.Context, *CreateProductRequest) (*CreateProductResponse, error)
 	Update(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
-	Delete(context.Context, *ByIdRequest) (*DeleteProductResponse, error)
+	Delete(context.Context, *ProductByIdRequest) (*DeleteProductResponse, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -369,7 +369,7 @@ type ProductServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedProductServiceServer struct{}
 
-func (UnimplementedProductServiceServer) GetById(context.Context, *ByIdRequest) (*ProductResponse, error) {
+func (UnimplementedProductServiceServer) GetById(context.Context, *ProductByIdRequest) (*ProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
 func (UnimplementedProductServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllProductsResponse, error) {
@@ -381,7 +381,7 @@ func (UnimplementedProductServiceServer) Create(context.Context, *CreateProductR
 func (UnimplementedProductServiceServer) Update(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedProductServiceServer) Delete(context.Context, *ByIdRequest) (*DeleteProductResponse, error) {
+func (UnimplementedProductServiceServer) Delete(context.Context, *ProductByIdRequest) (*DeleteProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
@@ -406,7 +406,7 @@ func RegisterProductServiceServer(s grpc.ServiceRegistrar, srv ProductServiceSer
 }
 
 func _ProductService_GetById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(ProductByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -418,7 +418,7 @@ func _ProductService_GetById_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: ProductService_GetById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).GetById(ctx, req.(*ByIdRequest))
+		return srv.(ProductServiceServer).GetById(ctx, req.(*ProductByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -478,7 +478,7 @@ func _ProductService_Update_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _ProductService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ByIdRequest)
+	in := new(ProductByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -490,7 +490,7 @@ func _ProductService_Delete_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: ProductService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).Delete(ctx, req.(*ByIdRequest))
+		return srv.(ProductServiceServer).Delete(ctx, req.(*ProductByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
