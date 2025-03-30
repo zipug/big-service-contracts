@@ -131,9 +131,10 @@ message Keyboard {
   optional string func = 4;
   optional string name_locale = 5;
   optional string func_locale = 6;
-  bool is_main = 7;
-  bool is_data = 8;
-  bool is_link = 9;
+  optional string action = 7;
+  bool is_main = 8;
+  bool is_data = 9;
+  bool is_link = 10;
 }
 
 message KeyboardResponse {
@@ -161,9 +162,10 @@ message UpdateKeyboardRequest {
   optional string func = 4;
   optional string name_locale = 5;
   optional string func_locale = 6;
-  bool is_main = 7;
-  bool is_data = 8;
-  bool is_link = 9;
+  optional string action = 7;
+  bool is_main = 8;
+  bool is_data = 9;
+  bool is_link = 10;
 }
 
 message UpdateKeyboardResponse {
