@@ -176,3 +176,17 @@ message UpdateKeyboardResponse {
 message DeleteKeyboardResponse {
   string status = 1;
 }
+
+service ActionService {
+  rpc GetAll(google.protobuf.Empty) returns (AllActionsResponse);
+}
+
+message Action {
+  string name = 1;
+  string description = 2;
+}
+
+message AllActionsResponse {
+  repeated Action data = 1;
+  string status = 2;
+}

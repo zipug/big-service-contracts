@@ -780,3 +780,105 @@ var KeyboardService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "bot/bot.proto",
 }
+
+const (
+	ActionService_GetAll_FullMethodName = "/bot.ActionService/GetAll"
+)
+
+// ActionServiceClient is the client API for ActionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ActionServiceClient interface {
+	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllActionsResponse, error)
+}
+
+type actionServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewActionServiceClient(cc grpc.ClientConnInterface) ActionServiceClient {
+	return &actionServiceClient{cc}
+}
+
+func (c *actionServiceClient) GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AllActionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AllActionsResponse)
+	err := c.cc.Invoke(ctx, ActionService_GetAll_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ActionServiceServer is the server API for ActionService service.
+// All implementations must embed UnimplementedActionServiceServer
+// for forward compatibility.
+type ActionServiceServer interface {
+	GetAll(context.Context, *emptypb.Empty) (*AllActionsResponse, error)
+	mustEmbedUnimplementedActionServiceServer()
+}
+
+// UnimplementedActionServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedActionServiceServer struct{}
+
+func (UnimplementedActionServiceServer) GetAll(context.Context, *emptypb.Empty) (*AllActionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
+}
+func (UnimplementedActionServiceServer) mustEmbedUnimplementedActionServiceServer() {}
+func (UnimplementedActionServiceServer) testEmbeddedByValue()                       {}
+
+// UnsafeActionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ActionServiceServer will
+// result in compilation errors.
+type UnsafeActionServiceServer interface {
+	mustEmbedUnimplementedActionServiceServer()
+}
+
+func RegisterActionServiceServer(s grpc.ServiceRegistrar, srv ActionServiceServer) {
+	// If the following call pancis, it indicates UnimplementedActionServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&ActionService_ServiceDesc, srv)
+}
+
+func _ActionService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServiceServer).GetAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ActionService_GetAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServiceServer).GetAll(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ActionService_ServiceDesc is the grpc.ServiceDesc for ActionService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ActionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "bot.ActionService",
+	HandlerType: (*ActionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetAll",
+			Handler:    _ActionService_GetAll_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "bot/bot.proto",
+}
