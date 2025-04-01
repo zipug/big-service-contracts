@@ -25,7 +25,7 @@ message Category {
   optional string description = 4;
   optional string name_locale = 5;
   optional string description_locale = 6;
-  int64 parent_id = 7;
+  optional int64 parent_id = 7;
 }
 
 message CategoryResponse {
