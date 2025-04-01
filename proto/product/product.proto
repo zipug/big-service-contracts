@@ -38,7 +38,7 @@ message CreateCategoryData {
   optional string description = 2;
   optional string name_locale = 3;
   optional string description_locale = 4;
-  int64 parent_id = 5;
+  optional int64 parent_id = 5;
 }
 
 message CreateCategoryRequest {
@@ -55,7 +55,7 @@ message UpdateCategoryRequest {
   optional string description = 3;
   optional string name_locale = 4;
   optional string description_locale = 5;
-  int64 parent_id = 6;
+  optional int64 parent_id = 6;
 }
 
 message UpdateCategoryResponse {
