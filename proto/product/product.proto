@@ -86,6 +86,7 @@ message Product {
   optional string description_locale = 8;
   string value = 9;
   double cost = 10;
+  string out_date = 11;
 }
 
 message ProductResponse {
